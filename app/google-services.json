@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "93436768065",
+    "project_id": "advandroidclicknbuy",
+    "storage_bucket": "advandroidclicknbuy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93436768065:android:48cef538bb22760d3cfbc0",
+        "android_client_info": {
+          "package_name": "com.advandroid.project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93436768065-8ddbpetnabdk6s7fq2i80kgah0bnb5h9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2eFCJHHBicEU_4cstllUXpvXBjLbhAiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93436768065-8ddbpetnabdk6s7fq2i80kgah0bnb5h9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
