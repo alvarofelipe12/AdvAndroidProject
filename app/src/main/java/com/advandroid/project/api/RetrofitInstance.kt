@@ -1,4 +1,4 @@
-package com.example.advaproj.api
+package com.advandroid.project.api
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient

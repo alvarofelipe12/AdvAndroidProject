@@ -1,4 +1,4 @@
-package com.example.advaproj.fragment
+package com.advandroid.project.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -7,12 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.example.advaproj.R
-import com.example.advaproj.adapter.ProductAdapter
-import com.example.advaproj.api.IAPIResponse
-import com.example.advaproj.api.RetrofitInstance
-import com.example.advaproj.databinding.FragmentProductBinding
-import com.example.advaproj.model.Product
+import com.advandroid.project.adapter.ProductAdapter
+import com.advandroid.project.api.IAPIResponse
+import com.advandroid.project.api.RetrofitInstance
+import com.advandroid.project.data.Product
+import com.advandroid.project.databinding.FragmentProductBinding
 import kotlinx.coroutines.launch
 
 
@@ -37,7 +36,7 @@ class productFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var productList:ArrayList<Product> = ArrayList()
-        var adapter:ProductAdapter= ProductAdapter(requireActivity(),productList)
+        var adapter: ProductAdapter = ProductAdapter(requireActivity(),productList)
         binding.lvProduct.adapter=adapter
             var api: IAPIResponse = RetrofitInstance.retrofitService         // singleton
 
