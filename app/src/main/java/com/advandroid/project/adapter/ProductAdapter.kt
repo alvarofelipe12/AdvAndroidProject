@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.advandroid.project.data.Product
 import com.advandroid.project.databinding.ItemRowLayoutBinding
+import com.squareup.picasso.Picasso
 
-class ProductAdapter(context: Context, var dataSource: ArrayList<Product>) : ArrayAdapter<Product>(context, 0, dataSource) {
+
+class ProductAdapter(context: Context, var dataSource: ArrayList<Product>) :
+    ArrayAdapter<Product>(context, 0, dataSource) {
 
     internal var data = ArrayList<Product>()
     internal val TAG = "ProductAdapter"
@@ -31,13 +34,13 @@ class ProductAdapter(context: Context, var dataSource: ArrayList<Product>) : Arr
         itemRowBinding = ItemRowLayoutBinding.inflate(LayoutInflater.from(context), parent, false)
         itemView = itemRowBinding.root
 
-        val product:Product = getItem(position)
+        val product: Product = getItem(position)
         Log.d(TAG, "getView - item - : ${product}")
 
 
         itemRowBinding.productTitle.setText(product.title)
         itemRowBinding.productPrice.setText(product.price.toString())
-//        Picasso.get().load(product.image).into(itemRowBinding.productImage);
+        Picasso.get().load(product.image).into(itemRowBinding.productImage);
         itemRowBinding.productContainer.setOnClickListener {
             Log.d(TAG, "Row number ${position} was clicked.")
             // call a function in the main activity

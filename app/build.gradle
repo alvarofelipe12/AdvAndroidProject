@@ -63,4 +63,7 @@ dependencies {
     implementation 'com.squareup.moshi:moshi-kotlin:1.9.3'
     // optional library to debug Retrofit’s http requests/responses
     implementation "com.squareup.okhttp3:logging-interceptor:4.9.3"
+
+    //picasso to get images from url
+    implementation 'com.squareup.picasso:picasso:2.8'
 }
