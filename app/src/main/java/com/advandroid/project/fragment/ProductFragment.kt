@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.advandroid.project.adapter.ProductAdapter
 import com.advandroid.project.api.IAPIResponse
 import com.advandroid.project.api.RetrofitInstance
@@ -15,7 +16,7 @@ import com.advandroid.project.databinding.FragmentProductBinding
 import kotlinx.coroutines.launch
 
 
-class productFragment : Fragment() {
+class ProductFragment : Fragment() {
     val TAG: String = "PRODUCT-FRAGMENT"
 
     private var _binding: FragmentProductBinding? = null
@@ -28,28 +29,29 @@ class productFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentProductBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var productList:ArrayList<Product> = ArrayList()
-        var adapter: ProductAdapter = ProductAdapter(requireActivity(),productList)
-        binding.lvProduct.adapter=adapter
-            var api: IAPIResponse = RetrofitInstance.retrofitService         // singleton
+        var productList: ArrayList<Product> = ArrayList()
+        var adapter: ProductAdapter = ProductAdapter(requireActivity(), productList)
+        binding.lvProduct.adapter = adapter
+        var api: IAPIResponse = RetrofitInstance.retrofitService         // singleton
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                val productListFromAPI:List<Product> = api.getAllProduct()
-                Log.d(TAG, "${productListFromAPI}")
-                productList.clear()
-                productList.addAll(productListFromAPI)
-                adapter.notifyDataSetChanged()
+        viewLifecycleOwner.lifecycleScope.launch {
+            val productListFromAPI: List<Product> = api.getAllProduct()
+            Log.d(TAG, "$productListFromAPI")
+            productList.clear()
+            productList.addAll(productListFromAPI)
+            adapter.notifyDataSetChanged()
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
