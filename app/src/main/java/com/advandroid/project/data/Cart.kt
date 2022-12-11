@@ -6,7 +6,7 @@ import kotlin.collections.ArrayList
 
 class Cart(
     var date: LocalDate,
-    var products: MutableList<Product> = ArrayList<Product>(),
+    var listOfSelectedProducts: MutableList<SelectedProduct> = ArrayList<SelectedProduct>(),
     var id: String = UUID.randomUUID().toString()
 ) {
 }

@@ -2,7 +2,7 @@ package com.advandroid.project.data
 
 import java.util.*
 
-class Product(
+open class Product(
     var title: String,
     var price: Double,
     var category: String,
