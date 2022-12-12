@@ -2,13 +2,13 @@ package com.advandroid.project.data
 
 import java.util.*
 
-class SelectedProduct(
-    var prodTitle: String,
-    var prodPrice: Double,
-    var prodCategory: String,
-    var prodDescription: String,
-    var prodImage: String,
-    var qty: Int,
+data class SelectedProduct(
+    var prodTitle: String = "",
+    var prodPrice: Double = 0.0,
+    var prodCategory: String = "",
+    var prodDescription: String = "",
+    var prodImage: String = "",
+    var qty: Int = 1,
     var totalPrice: Double = qty * prodPrice,
     var prodId: String = UUID.randomUUID().toString()
 ) : Product(

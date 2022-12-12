@@ -22,5 +22,13 @@
         <argument
             android:name="productData"
             app:argType="com.advandroid.project.data.Product" />
+        <action
+            android:id="@+id/action_detailFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.advandroid.project.fragment.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" />
 </navigation>
