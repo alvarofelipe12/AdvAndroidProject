@@ -26,6 +26,14 @@ class Datasource {
         return cartSelectedProductsList
     }
 
+    fun getTotal(): Double {
+        var totalToPay = 0.0
+        cartSelectedProductsList.forEach{
+            totalToPay += it.totalPrice
+        }
+        return totalToPay
+    }
+
     fun addCartItem(product: SelectedProduct) {
         cartSelectedProductsList.add(product)
     }

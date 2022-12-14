@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.advandroid.project.adapter.ProductAdapter
@@ -14,6 +15,7 @@ import com.advandroid.project.api.RetrofitInstance
 import com.advandroid.project.data.Product
 import com.advandroid.project.databinding.FragmentProductBinding
 import kotlinx.coroutines.launch
+import org.checkerframework.checker.units.qual.s
 
 
 class ProductFragment : Fragment() {
@@ -21,7 +23,7 @@ class ProductFragment : Fragment() {
 
     private var _binding: FragmentProductBinding? = null
     private val binding get() = _binding!!
-
+    lateinit var adapter: ProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,16 +37,18 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var productList: ArrayList<Product> = ArrayList()
-        var adapter: ProductAdapter = ProductAdapter(requireActivity(), productList)
+        adapter = ProductAdapter(requireActivity(), productList)
         binding.lvProduct.adapter = adapter
         var api: IAPIResponse = RetrofitInstance.retrofitService         // singleton
 
         viewLifecycleOwner.lifecycleScope.launch {
             val productListFromAPI: List<Product> = api.getAllProduct()
-            Log.d(TAG, "$productListFromAPI")
             productList.clear()
             productList.addAll(productListFromAPI)
             adapter.notifyDataSetChanged()
+        }
+        binding.itemSearch.addTextChangedListener {
+            adapter.filter.filter(it.toString());
         }
     }
 
@@ -52,6 +56,4 @@ class ProductFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

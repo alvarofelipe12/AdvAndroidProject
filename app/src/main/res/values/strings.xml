@@ -4,4 +4,5 @@
     <string name="add_to_cart">Add to cart</string>
     <string name="qty">Qty:</string>
     <string name="pay_now">Pay Now</string>
+    <string name="search_products">Search products..</string>
 </resources>

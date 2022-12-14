@@ -83,7 +83,7 @@ class DetailFragment : Fragment(), View.OnClickListener {
                         context,
                         "${product.title} has been added to the Cart successfully",
                         Toast.LENGTH_LONG
-                    )
+                    ).show()
                     goToCart()
                 }
             }
