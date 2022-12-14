@@ -2,10 +2,9 @@ package com.advandroid.project.fragment
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import com.advandroid.project.R
 import com.advandroid.project.adapter.CartAdapter
 import com.advandroid.project.data.Datasource
 import com.advandroid.project.data.SelectedProduct
@@ -45,4 +44,6 @@ class CartFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

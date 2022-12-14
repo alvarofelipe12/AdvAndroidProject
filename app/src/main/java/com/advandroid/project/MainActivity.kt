@@ -2,10 +2,18 @@ package com.advandroid.project
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.advandroid.project.data.CartRepository
 import com.advandroid.project.data.Product
 import com.advandroid.project.databinding.ActivityMainBinding
+import com.advandroid.project.fragment.LoginFragmentDirections
 import com.advandroid.project.fragment.ProductFragmentDirections
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         cartRepository = CartRepository(this)
         cartRepository.getCart()
+
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+       menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     fun goToDetail(product: Product, id: Int) {
@@ -26,4 +39,6 @@ class MainActivity : AppCompatActivity() {
         )
         findNavController(id).navigate(action)
     }
+
+
 }

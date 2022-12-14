@@ -3,6 +3,7 @@ package com.advandroid.project.data
 // singleton class
 class Datasource {
     var cartSelectedProductsList: MutableList<SelectedProduct> = mutableListOf()
+    lateinit var currentUser:User
 
     companion object {
         @Volatile

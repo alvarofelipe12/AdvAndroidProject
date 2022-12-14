@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/register"
+        android:title="REGISTER"
+        android:icon="@drawable/ic_register"
+        app:showAsAction="always">
+    </item>
+
+    <item
+        android:id="@+id/login"
+        android:title="LOGIN"
+        android:icon="@drawable/ic_login"
+        app:showAsAction="always">
+    </item>
+
+    <item
+        android:id="@+id/loguut"
+        android:title="LOGOUT"
+        android:icon="@drawable/ic_logout"
+        app:showAsAction="always">
+    </item>
+
+    <item
+        android:id="@+id/CART"
+        android:title="CART"
+        android:icon="@drawable/ic_cart"
+        app:showAsAction="always">
+    </item>
+
+</menu>

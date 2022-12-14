@@ -2,18 +2,20 @@ package com.advandroid.project.fragment
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.advandroid.project.R
 import com.advandroid.project.adapter.ProductAdapter
 import com.advandroid.project.api.IAPIResponse
 import com.advandroid.project.api.RetrofitInstance
 import com.advandroid.project.data.Product
 import com.advandroid.project.databinding.FragmentProductBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import org.checkerframework.checker.units.qual.s
 
@@ -24,6 +26,28 @@ class ProductFragment : Fragment() {
     private var _binding: FragmentProductBinding? = null
     private val binding get() = _binding!!
     lateinit var adapter: ProductAdapter
+    private lateinit var auth: FirebaseAuth
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+        auth = Firebase.auth
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if(currentUser != null){
+            Log.d(TAG,"Login as ${currentUser.email}")
+        }
+        //not loged
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu,menu)
+        setHasOptionsMenu(true)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
