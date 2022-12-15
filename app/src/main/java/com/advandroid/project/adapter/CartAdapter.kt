@@ -6,13 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import com.advandroid.project.MainActivity
 import com.advandroid.project.data.CartRepository
 import com.advandroid.project.data.Datasource
-import com.advandroid.project.data.Product
 import com.advandroid.project.data.SelectedProduct
 import com.advandroid.project.databinding.ItemCartRowLayoutBinding
-import com.advandroid.project.databinding.ItemRowLayoutBinding
 import com.squareup.picasso.Picasso
 
 class CartAdapter(context: Context, var dataSource: MutableList<SelectedProduct>) :
@@ -60,7 +57,7 @@ class CartAdapter(context: Context, var dataSource: MutableList<SelectedProduct>
         }
         itemCartRowBinding.btnRemove.setOnClickListener {
             datasource.removeCartItem(position)
-            CartRepository(context).deleteCartItem(product.id)
+            CartRepository(context).deleteCartItem(product.id,datasource.currentUser!!.uid)
             notifyDataSetChanged()
         }
 

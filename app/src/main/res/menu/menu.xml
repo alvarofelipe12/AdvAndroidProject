@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <item
-        android:id="@+id/register"
-        android:title="REGISTER"
-        android:icon="@drawable/ic_register"
-        app:showAsAction="always">
-    </item>
 
     <item
         android:id="@+id/login"
@@ -18,14 +12,14 @@
     </item>
 
     <item
-        android:id="@+id/loguut"
+        android:id="@+id/logout"
         android:title="LOGOUT"
         android:icon="@drawable/ic_logout"
         app:showAsAction="always">
     </item>
 
     <item
-        android:id="@+id/CART"
+        android:id="@+id/cart"
         android:title="CART"
         android:icon="@drawable/ic_cart"
         app:showAsAction="always">

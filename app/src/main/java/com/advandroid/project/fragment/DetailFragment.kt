@@ -78,7 +78,7 @@ class DetailFragment : Fragment(), View.OnClickListener {
                         qty
                     )
                     datasource.addCartItem(selectedProduct)
-                    cartRepository.addCartItem(selectedProduct)
+                    cartRepository.addCartItem(selectedProduct,datasource.currentUser!!.uid)
                     Toast.makeText(
                         context,
                         "${product.title} has been added to the Cart successfully",
@@ -91,7 +91,7 @@ class DetailFragment : Fragment(), View.OnClickListener {
     }
 
     private fun goToCart() {
-        val action = DetailFragmentDirections.actionDetailFragmentToCartFragment()
+        val action = DetailFragmentDirections.actionToCartFragment()
         findNavController().navigate(action)
     }
 }

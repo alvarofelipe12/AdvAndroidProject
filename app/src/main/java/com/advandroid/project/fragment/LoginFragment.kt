@@ -11,6 +11,9 @@ import androidx.navigation.fragment.findNavController
 
 
 import com.advandroid.project.R
+import com.advandroid.project.data.CartRepository
+import com.advandroid.project.data.Datasource
+import com.advandroid.project.data.User
 
 import com.advandroid.project.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -22,6 +25,8 @@ import com.google.firebase.ktx.Firebase
 class LoginFragment : Fragment(), View.OnClickListener {
     val TAG: String = "LOGIN-FRAGMENT"
     private lateinit var auth: FirebaseAuth
+    private lateinit var datasource: Datasource
+    lateinit var cartRepository: CartRepository
 
 
     private var _binding: FragmentLoginBinding? = null
@@ -29,7 +34,9 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        datasource = Datasource.getInstance()
         auth = Firebase.auth
+        cartRepository = CartRepository(requireContext())
 
     }
 
@@ -58,14 +65,23 @@ class LoginFragment : Fragment(), View.OnClickListener {
             val password=binding.userPassword.text.toString()
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this.requireActivity()) { task ->
+
+                    //login
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithEmail:success")
                         val user = auth.currentUser
-                        updateUI(user)
-                        val G=user!!.uid
-                        Log.d(TAG,"Token ${G}")
-                    } else {
+                        val userID=user!!.uid
+                        Log.d(TAG,"uid ${userID}")
+                        datasource.logedAsUser(User(email,password,user.uid))
+                        cartRepository = CartRepository(this.requireContext())
+                        cartRepository.getCart(datasource.currentUser!!.uid)
+                        val action = LoginFragmentDirections.actionLoginFragmentToProductFragment()
+                        findNavController().navigate(action)
+
+                    }
+                    //not logged
+                    else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.exception)
                         Toast.makeText(this.requireContext(), "Authentication failed.",
@@ -85,12 +101,21 @@ class LoginFragment : Fragment(), View.OnClickListener {
             val password=binding.userPassword.text.toString()
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this.requireActivity()) { task ->
+                    //login
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
                         val user = auth.currentUser
-                        updateUI(user)
-                    } else {
+
+                        cartRepository.createNewCart(user!!.uid)
+                        datasource.logedAsUser(User(email,password,user.uid))
+                        cartRepository = CartRepository(this.requireContext())
+                        cartRepository.getCart(datasource.currentUser!!.uid)
+                        val action = LoginFragmentDirections.actionLoginFragmentToProductFragment()
+                        findNavController().navigate(action)
+                    }
+                    //not logged
+                    else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
                         Toast.makeText(this.requireContext(), "Authentication failed.",
@@ -104,10 +129,6 @@ class LoginFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    fun logout(){
-        updateUI(null)
-    }
-
     private fun updateUI(user: FirebaseUser?) {
 
     }
@@ -118,8 +139,6 @@ class LoginFragment : Fragment(), View.OnClickListener {
                 R.id.loginButton->{
                     //login varif
                    login()
-                    val action = LoginFragmentDirections.actionLoginFragmentToProductFragment()
-                    findNavController().navigate(action)
                 }
                 R.id.registerButton->{
                     //register varif

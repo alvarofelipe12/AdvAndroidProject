@@ -43,11 +43,7 @@ class ProductFragment : Fragment() {
         //not loged
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu,menu)
-        setHasOptionsMenu(true)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
