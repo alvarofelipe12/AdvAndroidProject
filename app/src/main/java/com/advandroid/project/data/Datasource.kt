@@ -32,7 +32,8 @@ class Datasource {
         cartSelectedProductsList.forEach{
             totalToPay += it.totalPrice
         }
-        return totalToPay
+
+        return String.format("%.2f", totalToPay).toDouble()
     }
 
     fun addCartItem(product: SelectedProduct) {

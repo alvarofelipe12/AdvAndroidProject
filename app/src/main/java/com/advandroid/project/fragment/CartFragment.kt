@@ -3,7 +3,9 @@ package com.advandroid.project.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.advandroid.project.R
 import com.advandroid.project.adapter.CartAdapter
 import com.advandroid.project.data.Datasource
@@ -12,6 +14,7 @@ import com.advandroid.project.databinding.FragmentCartBinding
 import com.advandroid.project.databinding.FragmentProductBinding
 
 class CartFragment : Fragment() {
+    lateinit var btnPayNow: Button
     val TAG: String = "CART-FRAGMENT"
 
     private var _binding: FragmentCartBinding? = null
@@ -35,9 +38,14 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val productList: MutableList<SelectedProduct> = dataSource.getCart()
-        val adapter = CartAdapter(requireActivity(), productList)
+        val adapter = CartAdapter(this, productList)
         binding.lvProduct.adapter = adapter
         binding.btnPayNow.text = "Pay now ${dataSource.getTotal()}"
+        binding.btnPayNow.setOnClickListener {
+            val action = CartFragmentDirections.actionCartFragmentToReceiptFragment()
+            findNavController().navigate(action)
+        }
+        btnPayNow = binding.btnPayNow
     }
 
     override fun onDestroyView() {

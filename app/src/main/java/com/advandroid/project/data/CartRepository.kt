@@ -20,7 +20,6 @@ class CartRepository(private val context: Context) {
                     if (document != null) {
                         val arr = document.toObjects(SelectedProduct::class.java)
                         datasource.setCart(arr)
-                        Log.d("asd", "${datasource.getCart()}")
                     }
                 } else {
                     Log.d("addCartItem", "Get failed: ${task.exception}")

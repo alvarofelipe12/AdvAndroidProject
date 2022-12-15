@@ -1,26 +1,26 @@
 package com.advandroid.project.adapter
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import com.advandroid.project.MainActivity
+import androidx.appcompat.app.AlertDialog
+import com.advandroid.project.R
 import com.advandroid.project.data.CartRepository
 import com.advandroid.project.data.Datasource
-import com.advandroid.project.data.Product
 import com.advandroid.project.data.SelectedProduct
 import com.advandroid.project.databinding.ItemCartRowLayoutBinding
-import com.advandroid.project.databinding.ItemRowLayoutBinding
+import com.advandroid.project.fragment.CartFragment
 import com.squareup.picasso.Picasso
 
-class CartAdapter(context: Context, var dataSource: MutableList<SelectedProduct>) :
-    ArrayAdapter<SelectedProduct>(context, 0, dataSource) {
+class CartAdapter(fragment: CartFragment, dataSource: MutableList<SelectedProduct>) :
+    ArrayAdapter<SelectedProduct>(fragment.requireContext(), 0, dataSource) {
     internal var data = mutableListOf<SelectedProduct>()
     private val TAG = "CartAdapter"
     lateinit var itemCartRowBinding: ItemCartRowLayoutBinding
-    lateinit var datasource: Datasource
+    lateinit var dataSource: Datasource
+    private val fragment = fragment
 
     init {
         data = dataSource
@@ -38,7 +38,7 @@ class CartAdapter(context: Context, var dataSource: MutableList<SelectedProduct>
         itemCartRowBinding =
             ItemCartRowLayoutBinding.inflate(LayoutInflater.from(context), parent, false)
         itemView = itemCartRowBinding.root
-        datasource = Datasource.getInstance()
+        dataSource = Datasource.getInstance()
 
         val product: SelectedProduct = getItem(position)
         Log.d(TAG, "getView - item - : $product")
@@ -59,12 +59,29 @@ class CartAdapter(context: Context, var dataSource: MutableList<SelectedProduct>
             itemCartRowBinding.tvQty.text = product.qty.toString()
         }
         itemCartRowBinding.btnRemove.setOnClickListener {
-            datasource.removeCartItem(position)
-            CartRepository(context).deleteCartItem(product.id)
-            notifyDataSetChanged()
+            deleteItem(position, product.id)
         }
 
         // Return the completed view to render on screen
         return itemView!!
+    }
+
+    private fun deleteItem(position: Int, id: String) {
+        //ask for confirmation
+        val confirmDialog = AlertDialog.Builder(context)
+        confirmDialog.setTitle(context.getString(R.string.delete))
+        confirmDialog.setMessage(context.getString(R.string.confirmation_delete))
+        confirmDialog.setNegativeButton(context.getString(R.string.cancel)) { dialogInterface, i ->
+            notifyDataSetChanged()
+            dialogInterface.dismiss()
+        }
+        confirmDialog.setPositiveButton(context.getString(R.string.yes)) { dialogInterface, i ->
+            dataSource.removeCartItem(position)
+            CartRepository(context).deleteCartItem(id)
+            // updating price in pay button
+            fragment.btnPayNow.text = "Pay now ${dataSource.getTotal()}"
+            notifyDataSetChanged()
+        }
+        confirmDialog.show()
     }
 }
