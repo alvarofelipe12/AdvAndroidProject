@@ -51,6 +51,11 @@ class DetailFragment : Fragment(), View.OnClickListener {
         else{
         binding.btnAddToCart.setBackgroundColor(Color.GRAY)
         binding.btnAddToCart.isClickable=false
+            Toast.makeText(
+                context,
+                "Please Login to add item to Cart",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
