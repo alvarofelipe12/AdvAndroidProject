@@ -77,7 +77,7 @@ class CartAdapter(fragment: CartFragment, dataSource: MutableList<SelectedProduc
         }
         confirmDialog.setPositiveButton(context.getString(R.string.yes)) { dialogInterface, i ->
             dataSource.removeCartItem(position)
-            CartRepository(context).deleteCartItem(id)
+            CartRepository(context).deleteCartItem(id, dataSource.currentUser!!.uid)
             // updating price in pay button
             fragment.btnPayNow.text = "Pay now ${dataSource.getTotal()}"
             notifyDataSetChanged()

@@ -9,31 +9,45 @@ import com.google.firebase.ktx.Firebase
 class CartRepository(private val context: Context) {
     private val TAG = this.toString()
     private val db = Firebase.firestore
-    private val COLLECTION_USERS = "cart"
+    private val COLLECTION_CART = "cart_all"
     private val datasource = Datasource.getInstance()
 
-    fun getCart() {
+    fun createNewCart(uid:String) {
+        val exist = hashMapOf("exist" to true)
         try {
-            db.collection(COLLECTION_USERS).get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val document: QuerySnapshot = task.result
-                    if (document != null) {
-                        val arr = document.toObjects(SelectedProduct::class.java)
-                        datasource.setCart(arr)
-                    }
-                } else {
-                    Log.d("addCartItem", "Get failed: ${task.exception}")
-                }
-            }
+            db.collection(COLLECTION_CART).document("${uid}").set(exist).addOnSuccessListener { docRef ->
+                    Log.d(TAG, "addCartItem: Document added with ID ${uid}")
 
+                }.addOnFailureListener {
+                    Log.e(TAG, "addCartItem: $it")
+                }
         } catch (ex: Exception) {
             Log.e(TAG, "addCartItem: $ex")
         }
     }
 
-    fun addCartItem(product: SelectedProduct) {
+    fun getCart(uid:String) {
         try {
-            db.collection(COLLECTION_USERS).add(product).addOnSuccessListener { docRef ->
+            db.collection(COLLECTION_CART).document("${uid}").collection("cart_item")
+                .get().addOnCompleteListener { docRef ->
+                if (docRef.isSuccessful) {
+                    val document: QuerySnapshot = docRef.result
+                    if (document != null) {
+                        val arr = document.toObjects(SelectedProduct::class.java)
+                        datasource.setCart(arr)
+                    }
+                } else {
+                    Log.d("addCartItem", "Get failed: ${docRef.exception}")
+                }
+            }
+        } catch (ex: Exception) {
+            Log.e(TAG, "addCartItem: $ex")
+        }
+    }
+
+    fun addCartItem(product: SelectedProduct,uid:String) {
+        try {
+            db.collection(COLLECTION_CART).document("${uid}").collection("cart_item").add(product).addOnSuccessListener { docRef ->
                 Log.d(TAG, "addCartItem: Document added with ID ${docRef.id}")
 
             }.addOnFailureListener {
@@ -45,9 +59,9 @@ class CartRepository(private val context: Context) {
         }
     }
 
-    fun deleteCartItem(prodId: String) {
+    fun deleteCartItem(prodId: String,uid:String) {
         try {
-            db.collection(COLLECTION_USERS).whereEqualTo("prodId", prodId).get()
+            db.collection(COLLECTION_CART).document("${uid}").collection("cart_item").whereEqualTo("prodId", prodId).get()
                 .addOnSuccessListener { querySnapshot ->
                     querySnapshot.forEach {
                         it.reference.delete()

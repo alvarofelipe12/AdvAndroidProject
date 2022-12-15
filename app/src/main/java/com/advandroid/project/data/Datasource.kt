@@ -3,7 +3,7 @@ package com.advandroid.project.data
 // singleton class
 class Datasource {
     var cartSelectedProductsList: MutableList<SelectedProduct> = mutableListOf()
-    lateinit var currentUser:User
+    var currentUser:User?=null
 
     companion object {
         @Volatile
@@ -43,4 +43,13 @@ class Datasource {
     fun removeCartItem(position: Int) {
         cartSelectedProductsList.removeAt(position)
     }
+
+    fun logedAsUser(user:User){
+        currentUser = user
+    }
+    fun logout(){
+        currentUser= null
+        cartSelectedProductsList.clear()
+    }
+
 }

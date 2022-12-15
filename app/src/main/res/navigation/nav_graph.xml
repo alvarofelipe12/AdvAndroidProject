@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/productFragment">
 
 
     <fragment
@@ -25,7 +25,18 @@
         <action
             android:id="@+id/action_productFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_to_cartFragment"
+            app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_to_ProductFragment"
+            app:destination="@id/productFragment" />
+
     </fragment>
+
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.advandroid.project.fragment.DetailFragment"
@@ -35,8 +46,15 @@
             android:name="productData"
             app:argType="com.advandroid.project.data.Product" />
         <action
-            android:id="@+id/action_detailFragment_to_cartFragment"
+            android:id="@+id/action_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_to_cartFragment"
             app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_to_ProductFragment"
+            app:destination="@id/productFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -46,10 +64,18 @@
         <action
             android:id="@+id/action_cartFragment_to_receiptFragment"
             app:destination="@id/receiptFragment" />
+        <action
+            android:id="@+id/action_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_to_cartFragment"
+            app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_to_ProductFragment"
+            app:destination="@id/productFragment" />
     </fragment>
     <fragment
         android:id="@+id/receiptFragment"
         android:name="com.advandroid.project.fragment.ReceiptFragment"
         android:label="ReceiptFragment" />
-
 </navigation>
