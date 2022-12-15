@@ -59,6 +59,20 @@ class CartRepository(private val context: Context) {
         }
     }
 
+    fun changeItemQuantity(prodId: String,uid:String,qty:Int) {
+        try {
+            db.collection(COLLECTION_CART).document("${uid}").collection("cart_item").document(prodId).update("qty",qty)
+                .addOnSuccessListener { docRef ->
+                    Log.d(TAG, "addCartItem: Document added with ID ${docRef}")
+            }.addOnFailureListener {
+                Log.e(TAG, "changeItemQty: $it")
+            }
+        } catch (ex: Exception) {
+            Log.e(TAG, "changeItemQty: $ex")
+        }
+    }
+
+
     fun deleteCartItem(prodId: String,uid:String) {
         try {
             db.collection(COLLECTION_CART).document("${uid}").collection("cart_item").whereEqualTo("prodId", prodId).get()

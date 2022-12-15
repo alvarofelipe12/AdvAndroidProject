@@ -40,14 +40,6 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        if(currentUser != null){
-            //smth on ui as loged in
-        }
-        //not loged
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

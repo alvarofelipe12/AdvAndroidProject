@@ -1,5 +1,6 @@
 package com.advandroid.project.adapter
 
+import android.provider.ContactsContract.Data
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -48,16 +49,26 @@ class CartAdapter(fragment: CartFragment, dataSource: MutableList<SelectedProduc
         itemCartRowBinding.productPrice.text = product.totalPrice.toString()
         Picasso.get().load(product.image).into(itemCartRowBinding.productImage)
         itemCartRowBinding.tvQty.text = product.qty.toString()
+
+
         itemCartRowBinding.btnDecreaseQty.setOnClickListener {
             if (product.qty > 1) {
                 product.qty--
+
+//                CartRepository(context).changeItemQuantity(product.id,dataSource.currentUser!!.uid,product.qty)
+//                dataSource.changeItemQuantity(position,product.qty)
                 itemCartRowBinding.tvQty.text = product.qty.toString()
             }
         }
+
         itemCartRowBinding.btnIncreaseQty.setOnClickListener {
             product.qty++
+//
+//            CartRepository(context).changeItemQuantity(product.id,dataSource.currentUser!!.uid,product.qty)
+//            dataSource.changeItemQuantity(position,product.qty)
             itemCartRowBinding.tvQty.text = product.qty.toString()
         }
+
         itemCartRowBinding.btnRemove.setOnClickListener {
             deleteItem(position, product.id)
         }
@@ -84,4 +95,6 @@ class CartAdapter(fragment: CartFragment, dataSource: MutableList<SelectedProduc
         }
         confirmDialog.show()
     }
+
+
 }

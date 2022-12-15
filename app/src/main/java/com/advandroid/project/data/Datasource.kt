@@ -44,6 +44,10 @@ class Datasource {
         cartSelectedProductsList.removeAt(position)
     }
 
+    fun changeItemQuantity(position: Int,change:Int){
+        cartSelectedProductsList[position].qty+=change
+    }
+
     fun logedAsUser(user:User){
         currentUser = user
     }

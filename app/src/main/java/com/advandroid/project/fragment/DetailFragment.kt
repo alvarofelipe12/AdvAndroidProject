@@ -1,5 +1,6 @@
 package com.advandroid.project.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,12 +15,16 @@ import com.advandroid.project.data.Datasource
 import com.advandroid.project.data.Product
 import com.advandroid.project.data.SelectedProduct
 import com.advandroid.project.databinding.FragmentDetailBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 
 class DetailFragment : Fragment(), View.OnClickListener {
 
     private var qty: Int = 1
     private lateinit var product: Product
+    private lateinit var auth: FirebaseAuth
 
     private val args: DetailFragmentArgs by navArgs()
 
@@ -32,6 +37,21 @@ class DetailFragment : Fragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         datasource = Datasource.getInstance()
         cartRepository = CartRepository(requireContext())
+        auth = Firebase.auth
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if(currentUser != null){
+            //smth on ui as loged in
+            binding.btnAddToCart.setBackgroundColor(resources.getColor(R.color.purple_500))
+            binding.btnAddToCart.isClickable=true
+        }
+        else{
+        binding.btnAddToCart.setBackgroundColor(Color.GRAY)
+        binding.btnAddToCart.isClickable=false
+        }
     }
 
     override fun onCreateView(

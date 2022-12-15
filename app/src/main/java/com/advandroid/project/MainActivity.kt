@@ -48,12 +48,20 @@ class MainActivity : AppCompatActivity() {
 
     fun menuUpdate() {
         val currentUser = auth.currentUser
-        if (currentUser != null) {
-            menuItem!!.findItem(R.id.login).isVisible = false
-            menuItem!!.findItem(R.id.logout).isVisible = true
-            menuItem!!.findItem(R.id.cart).isVisible = true
-            Log.d("LOGIN", "MENU UPDATED")
-        } else {
+        if (currentUser != null&&datasource.currentUser!=null) {
+                menuItem!!.findItem(R.id.login).isVisible = false
+                menuItem!!.findItem(R.id.logout).isVisible = true
+                menuItem!!.findItem(R.id.cart).isVisible = true
+                Log.d("LOGIN", "MENU UPDATED,  ${currentUser.email}")
+        }
+        else if(currentUser != null&&datasource.currentUser==null){
+            auth.signOut()
+            menuItem!!.findItem(R.id.login).isVisible = true
+            menuItem!!.findItem(R.id.logout).isVisible = false
+            menuItem!!.findItem(R.id.cart).isVisible = false
+            Log.d("LOGOUT", "MENU UPDATED")
+        }
+        else {
             menuItem!!.findItem(R.id.login).isVisible = true
             menuItem!!.findItem(R.id.logout).isVisible = false
             menuItem!!.findItem(R.id.cart).isVisible = false
