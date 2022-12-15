@@ -1,6 +1,5 @@
 package com.advandroid.project.adapter
 
-import android.provider.ContactsContract.Data
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +14,8 @@ import com.advandroid.project.databinding.ItemCartRowLayoutBinding
 import com.advandroid.project.fragment.CartFragment
 import com.squareup.picasso.Picasso
 
-class CartAdapter(fragment: CartFragment, dataSource: MutableList<SelectedProduct>) :
-    ArrayAdapter<SelectedProduct>(fragment.requireContext(), 0, dataSource) {
+class CartAdapter(fragment: CartFragment, selectedProducts: MutableList<SelectedProduct>) :
+    ArrayAdapter<SelectedProduct>(fragment.requireContext(), 0, selectedProducts) {
     internal var data = mutableListOf<SelectedProduct>()
     private val TAG = "CartAdapter"
     lateinit var itemCartRowBinding: ItemCartRowLayoutBinding
@@ -24,7 +23,7 @@ class CartAdapter(fragment: CartFragment, dataSource: MutableList<SelectedProduc
     private val fragment = fragment
 
     init {
-        data = dataSource
+        data = selectedProducts
     }
 
     override fun getItem(position: Int): SelectedProduct {
@@ -32,12 +31,17 @@ class CartAdapter(fragment: CartFragment, dataSource: MutableList<SelectedProduc
         return data[position]
     }
 
+    override fun getCount(): Int {
+        return data.size
+    }
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         // get binding variables
         var itemView = convertView
+
         itemCartRowBinding =
-            ItemCartRowLayoutBinding.inflate(LayoutInflater.from(context), parent, false)
+            ItemCartRowLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         itemView = itemCartRowBinding.root
         dataSource = Datasource.getInstance()
 
@@ -48,7 +52,7 @@ class CartAdapter(fragment: CartFragment, dataSource: MutableList<SelectedProduc
         itemCartRowBinding.productTitle.text = product.title
         itemCartRowBinding.productPrice.text = product.totalPrice.toString()
         Picasso.get().load(product.image).into(itemCartRowBinding.productImage)
-        itemCartRowBinding.tvQty.text = product.qty.toString()
+        itemCartRowBinding.tvQtyCart.text = product.qty.toString()
 
 
         itemCartRowBinding.btnDecreaseQty.setOnClickListener {
@@ -57,16 +61,20 @@ class CartAdapter(fragment: CartFragment, dataSource: MutableList<SelectedProduc
 
 //                CartRepository(context).changeItemQuantity(product.id,dataSource.currentUser!!.uid,product.qty)
 //                dataSource.changeItemQuantity(position,product.qty)
-                itemCartRowBinding.tvQty.text = product.qty.toString()
+                itemCartRowBinding.tvQtyCart.text = product.qty.toString()
             }
         }
 
         itemCartRowBinding.btnIncreaseQty.setOnClickListener {
+            Log.d("asd", "${product.title} ${product.qty} $data")
+            Log.d("asd", "${itemCartRowBinding.productTitle.text} ${itemCartRowBinding.tvQtyCart.text}")
             product.qty++
 //
 //            CartRepository(context).changeItemQuantity(product.id,dataSource.currentUser!!.uid,product.qty)
 //            dataSource.changeItemQuantity(position,product.qty)
-            itemCartRowBinding.tvQty.text = product.qty.toString()
+            itemCartRowBinding.tvQtyCart.text = product.qty.toString()
+            Log.d("asd", "${product.title} ${product.qty} ${getItem(position)}")
+            Log.d("asd", "${itemCartRowBinding.productTitle.text} ${itemCartRowBinding.tvQtyCart.text}")
         }
 
         itemCartRowBinding.btnRemove.setOnClickListener {
@@ -89,6 +97,7 @@ class CartAdapter(fragment: CartFragment, dataSource: MutableList<SelectedProduc
         confirmDialog.setPositiveButton(context.getString(R.string.yes)) { dialogInterface, i ->
             dataSource.removeCartItem(position)
             CartRepository(context).deleteCartItem(id, dataSource.currentUser!!.uid)
+//            data.removeAt(position)
             // updating price in pay button
             fragment.btnPayNow.text = "Pay now ${dataSource.getTotal()}"
             notifyDataSetChanged()
