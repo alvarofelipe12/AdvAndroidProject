@@ -43,14 +43,13 @@ class DetailFragment : Fragment(), View.OnClickListener {
     override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
-        if(currentUser != null){
+        if (currentUser != null) {
             //smth on ui as loged in
             binding.btnAddToCart.setBackgroundColor(resources.getColor(R.color.purple_500))
-            binding.btnAddToCart.isClickable=true
-        }
-        else{
-        binding.btnAddToCart.setBackgroundColor(Color.GRAY)
-        binding.btnAddToCart.isClickable=false
+            binding.btnAddToCart.isClickable = true
+        } else {
+            binding.btnAddToCart.setBackgroundColor(Color.GRAY)
+            binding.btnAddToCart.isClickable = false
             Toast.makeText(
                 context,
                 "Please Login to add item to Cart",
@@ -87,11 +86,13 @@ class DetailFragment : Fragment(), View.OnClickListener {
                     if (qty > 1) {
                         qty--
                         binding.tvQty.setText("$qty")
+                        binding.tvPrice.setText("$${qty * product.price}")
                     }
                 }
                 R.id.btn_increase_qty -> {
                     qty++
                     binding.tvQty.setText("$qty")
+                    binding.tvPrice.setText("$${qty * product.price}")
                 }
                 R.id.btn_add_to_cart -> {
                     val selectedProduct = SelectedProduct(

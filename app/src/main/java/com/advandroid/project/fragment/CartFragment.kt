@@ -41,7 +41,7 @@ class CartFragment : Fragment() {
         val productList: MutableList<SelectedProduct> = dataSource.getCart()
         val adapter = Cart2RecyclerViewAdapter(productList, requireContext(), this)
         binding.lvProduct.adapter = adapter
-        binding.btnPayNow.text = "Pay now ${dataSource.getTotal()}"
+        binding.btnPayNow.text = "Pay now $${dataSource.getTotal()}"
         binding.btnPayNow.setOnClickListener {
             val action = CartFragmentDirections.actionCartFragmentToReceiptFragment()
             findNavController().navigate(action)
