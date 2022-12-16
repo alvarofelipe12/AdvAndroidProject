@@ -47,8 +47,8 @@ class CartRepository(private val context: Context) {
 
     fun addCartItem(product: SelectedProduct,uid:String) {
         try {
-            db.collection(COLLECTION_CART).document("${uid}").collection("cart_item").add(product).addOnSuccessListener { docRef ->
-                Log.d(TAG, "addCartItem: Document added with ID ${docRef.id}")
+            db.collection(COLLECTION_CART).document("${uid}").collection("cart_item").document(product.id).set(product).addOnSuccessListener { docRef ->
+                Log.d(TAG, "addCartItem: Document added with ID ${docRef}")
 
             }.addOnFailureListener {
                 Log.e(TAG, "addCartItem: $it")
@@ -61,7 +61,7 @@ class CartRepository(private val context: Context) {
 
     fun changeItemQuantity(prodId: String,uid:String,qty:Int) {
         try {
-            db.collection(COLLECTION_CART).document("${uid}").collection("cart_item").document(prodId).update("qty",qty)
+            db.collection(COLLECTION_CART).document("${uid}/cart_item/${prodId}").update("qty",qty)
                 .addOnSuccessListener { docRef ->
                     Log.d(TAG, "addCartItem: Document added with ID ${docRef}")
             }.addOnFailureListener {
