@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.advandroid.project.adapter.ReceiptRecyclerViewAdapter
 import com.advandroid.project.data.Datasource
 import com.advandroid.project.databinding.FragmentReceiptListBinding
@@ -34,6 +35,10 @@ class ReceiptFragment : Fragment() {
         binding.tvSubtotal.text = "Subtotal: $${dataSource.getTotal()}"
         val total = (dataSource.getTotal() * 0.13) + dataSource.getTotal()
         binding.tvTotal.text = "Total: $${String.format("%.2f", total).toDouble()}"
+        binding.btnGoToList.setOnClickListener {
+            val action = ReceiptFragmentDirections.actionReceiptFragmentToProductFragment()
+            findNavController().navigate(action)
+        }
     }
 
     override fun onDestroyView() {
